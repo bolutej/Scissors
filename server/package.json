@@ -1,0 +1,28 @@
+{
+    "name": "server",
+    "version": "1.0.0",
+    "description": "",
+    "main": "index.js",
+    "scripts": {
+        "dev": "nodemon --config nodemon.json src/app.ts"
+    },
+    "author": "",
+    "license": "ISC",
+    "dependencies": {
+        "type": "module",
+        "@types/body-parser": "^1.19.2",
+        "@types/config": "^3.3.0",
+        "@types/express": "^4.17.17",
+        "@types/nanoid": "^3.0.0",
+        "@types/node": "^20.3.2",
+        "@types/yup": "^0.32.0",
+        "body-parser": "^1.20.2",
+        "config": "^3.3.9",
+        "cors": "^2.8.5",
+        "express": "^4.18.2",
+        "mongoose": "^7.3.1",
+        "ts-node": "^10.9.1",
+        "typescript": "^5.1.6",
+        "yup": "^1.2.0"
+    }
+}
