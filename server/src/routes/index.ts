@@ -1,5 +1,5 @@
 import { Request, Response, Router} from 'express'
-import {createShortUrl} from '../controller/shortUrl.controller'; 
+import {createShortUrl, handleRedirect, getAnalytics} from '../controller/shortUrl.controller'; 
 
 
 const router = Router();
@@ -8,6 +8,10 @@ const router = Router();
      return res.send('App is healthy');
  });
 
- router.post('/getCustomLink', createShortUrl);
+ router.post("/getCustomLink", createShortUrl);
+
+ router.get("/:shortId", handleRedirect);
+
+ router.get("/api/analytics", getAnalytics);
 
 export default router;

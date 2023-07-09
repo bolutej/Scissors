@@ -6,7 +6,9 @@ import Nav from "./Nav";
 import { ReactComponent as Frame } from './img/frame.svg';
 import { ReactComponent as Group } from './img/Group 3.svg';
 import { ReactComponent as Desktop }  from './img/Desktop.svg';
+import axios from "axios";
 import { useState } from 'react';
+import { SERVER_ENDPOINTS  } from "../config";
 // import { ReactComponent as Frame2 } from './img/Frame 1000001649.svg'
 
 const style = {
@@ -27,6 +29,23 @@ const HomePage = () => {
      const [openSign, setOpenSign] = useState(false);
      const handleSignupOpen = () => setOpenSign(true);
      const handleSignupClose = () => setOpenSign(false);
+     const [ destination, setDestination ] = useState();
+     const [shortUrl, setShortUrl] = useState<{
+        shortId: string;  
+     } | null>(null);
+
+     async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
+            e.preventDefault();
+            setShortUrl(null);
+            const result = await axios
+            .post(`${SERVER_ENDPOINTS}/getCustomLink`, {
+                destination,
+            })
+            .then((resp) => resp.data);
+
+            setShortUrl(result)
+     }
+
   return (
       <>
           <Nav />
@@ -237,8 +256,9 @@ const HomePage = () => {
                           backgroundSize: 'cover'
                       }}
                   >
-                      <FormControl sx={{ display: 'flex', textAlign: 'center', alignItems: 'center', height: '20vh', background: 'white' }}>
-                          <TextField type="text" size="small" defaultValue="Paste URL here.." sx={{ width: '26.5rem' }} />
+                      <FormControl component="form" onSubmit={handleSubmit} sx={{ display: 'flex', textAlign: 'center', alignItems: 'center', height: '20vh', background: 'white' }}>
+                          destination: {destination}
+                          <TextField onChange={(e: any) => setDestination(e.target.value)} type="text" size="small" defaultValue="Paste URL here.." sx={{ width: '26.5rem' }} />
                           <Box>
                               <Select
                                   sx={{
@@ -253,7 +273,9 @@ const HomePage = () => {
                               </Select>
                               <TextField type="text" size="small" defaultValue="Type Alias here" />
                               <br />
-                              <Button variant="contained">Trim URL</Button>
+                              <Button type="submit" variant="contained">
+                                  Trim URL
+                              </Button>
                               <Typography sx={{ typography: 'body2' }}>
                                   By clicking TrimURL, I agree to the Terms of Service,
                                   <br />
@@ -261,6 +283,7 @@ const HomePage = () => {
                               </Typography>
                           </Box>
                       </FormControl>
+                      {shortUrl && <a href={`${SERVER_ENDPOINTS}/${shortUrl?.shortId}`}>{shortUrl?.shortId}</a>}
                   </Box>
               </Box>
               <Box sx={{ px: '20rem' }}>

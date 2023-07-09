@@ -1,11 +1,22 @@
 import express from 'express';
-import config from '../config';
 import routes from './routes'
+import bodyParser from 'body-parser'
+import connectDB from './db'
+import dotenv from 'dotenv'
+import cors from "cors"
+
+dotenv.config();
 
 const app = express();
 
-const port = config.port; 
+app.use(cors())
+
+app.use(bodyParser.json());
+
 app.use(routes)
-app.listen(4000, () => {
-    console.log(`Application Listening at http://localhost:${port}`);
+const PORT = process.env.PORT
+    app.listen(PORT, () => {
+    console.log(`Application Listening at http://localhost:${PORT}`);
+    connectDB();
 });
+

@@ -3,7 +3,7 @@ import { customAlphabet } from "nanoid";
 
 const nanoid = customAlphabet("abcdefghijklmnopqrstuv0987654321", 6);
 
- interface ShortURL extends Document {
+ export interface ShortURL extends Document {
     shortId: string;
     destination: string;
 }
