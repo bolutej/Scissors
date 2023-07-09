@@ -8,12 +8,8 @@ const App = () => {
     return (
         <Router>
             <Routes>
-                <Route path="/">
-                    <Home />
-                </Route> 
-                <Route path='/:shortId'>
-                    <HandleRedirect/>
-                </Route>
+                <Route path="/" element={<Home/>} />
+                <Route path='/:shortId' element={<HandleRedirect/>}/>
             </Routes>
         </Router>
     );
