@@ -4,6 +4,7 @@ import { useParams } from 'react-router-dom';
 import {Box} from "@mui/material"
 import CircularProgress from '@mui/material/CircularProgress';
 
+//connection
 
 const SERVER_ENDPOINT =
   process.env.REACT_APP_SERVER_ENDPOINT || "http://localhost:4000";
@@ -12,7 +13,7 @@ function HandleRedirectContainer() {
     const [destination, setDestination] = useState<null | string>(null);
     const [error, setError] = useState();
 
-    const {params: { shortId } } = useParams<{shortId: string;}>();
+    const { shortId  } = useParams<{shortId: string;}>();
 
 
       useEffect(() => {
