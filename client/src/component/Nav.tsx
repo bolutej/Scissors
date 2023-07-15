@@ -2,6 +2,8 @@ import React from 'react'
 import { AppBar, Toolbar, Box, Button, Typography, Modal, TextField } from '@mui/material'; 
 import { Link } from 'react-router-dom'
 import  { useState } from 'react';
+import axios from 'axios'
+import { SERVER_ENDPOINTS } from '../config';
 // import Vector from '../'
 
 const style = {
@@ -21,11 +23,26 @@ const style = {
 const Nav:React.FC<{}> = () => {
     const [open, setOpen] = useState(false);
     const [openSign, setOpenSign] = useState(false);
+    const [email, setEmail] = useState('');
+    const [password, setPassword] = useState('');
     const handleOpen = () => setOpen(true);
     const handleClose = () => setOpen(false);
     const handleSignupOpen = () => setOpenSign(true);
     const handleSignupClose = () => setOpenSign(false);
 
+
+    async function handleSubmit(e) {
+        e.preventDefault();
+
+        try{
+            await axios.post(`${SERVER_ENDPOINTS}/login`, {
+                email,
+                password
+            });
+        }catch {
+            console.log(e)
+        }
+    }
   return (
       <AppBar position="static" style={{ background: 'white' }}>
           <Toolbar sx={{ display: 'flex', justifyContent: 'space-around' }}>
@@ -69,10 +86,28 @@ const Nav:React.FC<{}> = () => {
                               <Typography>Or</Typography>
                               <Box sx={{ border: '1px solid black' }}></Box>
                           </Box>
-                          <TextField type="text" size="small" label="Email address or username" variant="outlined" sx={{ width: '22rem', mb: '25px' }} />
-                          <TextField type="text" size="small" label="Password" variant="outlined" sx={{ width: '22rem', mb: '10px' }} />
+                          <TextField
+                              onChange={(e) => {
+                                  setEmail(e.target.value);
+                              }}
+                              type="email"
+                              size="small"
+                              label="Email address or username"
+                              variant="outlined"
+                              sx={{ width: '22rem', mb: '25px' }}
+                          />
+                          <TextField
+                              onChange={(e) => {
+                                  setPassword(e.target.value);
+                              }}
+                              type="password"
+                              size="small"
+                              label="Password"
+                              variant="outlined"
+                              sx={{ width: '22rem', mb: '10px' }}
+                          />
                           <Typography sx={{ color: '#005AE2CC', display: 'flex', justifyContent: 'right', mb: '10px', fontSize: '14px' }}>Forgot your password?</Typography>
-                          <Button variant="contained" sx={{ background: '#005AE2', borderRadius: '30px', px: '9rem', width: '22rem', fontSize: '14px', mb: '10px' }}>
+                          <Button type="submit" onClick={handleSubmit}  variant="contained" sx={{ background: '#005AE2', borderRadius: '30px', px: '9rem', width: '22rem', fontSize: '14px', mb: '10px' }}>
                               Log in
                           </Button>
                           <Typography sx={{ fontSize: '15px', color: '#5C6F7F', mb: '10px' }}>

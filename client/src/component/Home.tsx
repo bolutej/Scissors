@@ -10,6 +10,14 @@ import axios from "axios";
 import { useState } from 'react';
 import { SERVER_ENDPOINTS  } from "../config";
 // import { ReactComponent as Frame2 } from './img/Frame 1000001649.svg'
+// import {styled } from "@mui/material/styles";
+
+// const CustomizedTextField = styled(TextField)({
+//   border: "1px solid red",
+//   "& .Mui-focused": {
+//     border:"2px solid green"
+//   }
+// });
 
 const style = {
     position: 'absolute' as 'absolute',
@@ -33,6 +41,9 @@ const HomePage = () => {
      const [shortUrl, setShortUrl] = useState<{
         shortId: string;  
      } | null>(null);
+     const [username, setUsername] = useState('');
+     const [email, setEmail] = useState('');
+     const [password, setPassword] = useState('');
 
      async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
             e.preventDefault();
@@ -45,6 +56,20 @@ const HomePage = () => {
 
             setShortUrl(result)
      }
+
+      async function submitForm(e) {
+          e.preventDefault();
+
+          try {
+              await axios.post(`${SERVER_ENDPOINTS}/signup`, {
+                  username,
+                  email,
+                  password
+              });
+          } catch {
+              console.log(e);
+          }
+      }
 
   return (
       <>
@@ -80,12 +105,48 @@ const HomePage = () => {
                                   <Typography>Or</Typography>
                                   <Box sx={{ border: '1px solid black' }}></Box>
                               </Box>
-                              <TextField type="text" size="small" label="Username" variant="outlined" sx={{ width: '28rem', mb: '25px' }} />
-                              <TextField type="text" size="small" label="Email" variant="outlined" sx={{ width: '28rem', mb: '25px' }} />
-                              <TextField type="text" size="small" label="Password" variant="outlined" sx={{ width: '28rem', mb: '10px' }} />
-                              <TextField type="text" size="small" label="Retype Password" variant="outlined" sx={{ width: '28rem', mb: '25px' }} />
+                              <TextField
+                                  onChange={(e) => {
+                                      setUsername(e.target.value);
+                                  }}
+                                  type="text"
+                                  size="small"
+                                  label="Username"
+                                  variant="outlined"
+                                  sx={{ width: '28rem', mb: '25px' }}
+                              />
+                              <TextField
+                                  onChange={(e) => {
+                                      setEmail(e.target.value);
+                                  }}
+                                  type="email"
+                                  size="small"
+                                  label="Email"
+                                  variant="outlined"
+                                  sx={{ width: '28rem', mb: '25px' }}
+                              />
+                              <TextField
+                                  onChange={(e) => {
+                                      setPassword(e.target.value);
+                                  }}
+                                  type="Password"
+                                  size="small"
+                                  label="Password"
+                                  variant="outlined"
+                                  sx={{ width: '28rem', mb: '10px' }}
+                              />
+                              <TextField
+                                  onChange={(e) => {
+                                      setPassword(e.target.value);
+                                  }}
+                                  type="password"
+                                  size="small"
+                                  label="Retype Password"
+                                  variant="outlined"
+                                  sx={{ width: '28rem', mb: '25px' }}
+                              />
                               <Typography sx={{ display: 'flex', mb: '10px', fontSize: '12px' }}>6 or more characters, one number, one uppercase one lower case</Typography>
-                              <Button variant="contained" sx={{ background: '#005AE2', borderRadius: '30px', width: '28rem', fontSize: '14px', mb: '10px' }}>
+                              <Button type="submit" onClick={submitForm} variant="contained" sx={{ background: '#005AE2', borderRadius: '30px', width: '28rem', fontSize: '14px', mb: '10px' }}>
                                   Sign up with Email
                               </Button>
                               <Typography sx={{ fontSize: '15px', color: '#5C6F7F', mb: '10px' }}>
@@ -252,8 +313,7 @@ const HomePage = () => {
                   <Box
                       sx={{ padding: '20px', mx: '25rem' }}
                       style={{
-                          backgroundImage: `url(${Desktop})`,
-                          backgroundSize: 'cover'
+                          backgroundImage: `<Desktop />`
                       }}
                   >
                       <FormControl component="form" onSubmit={handleSubmit} sx={{ display: 'flex', textAlign: 'center', alignItems: 'center', height: '20vh', background: 'white' }}>
@@ -273,9 +333,10 @@ const HomePage = () => {
                               </Select>
                               <TextField type="text" size="small" defaultValue="Type Alias here" />
                               <br />
-                              <Button type="submit" variant="contained">
-                                  Trim URL
-                              </Button>
+                              <Button variant="contained">Trim URL</Button>
+                              <Typography sx={{ textAlign: 'center', pt: '10px', textDecoration: 'none' }}>
+                                  Your Short Url: {shortUrl && <a href={`${SERVER_ENDPOINTS}/${shortUrl?.shortId}`}>{shortUrl?.shortId}</a>}
+                              </Typography>
                               <Typography sx={{ typography: 'body2' }}>
                                   By clicking TrimURL, I agree to the Terms of Service,
                                   <br />
@@ -283,7 +344,6 @@ const HomePage = () => {
                               </Typography>
                           </Box>
                       </FormControl>
-                      {shortUrl && <a href={`${SERVER_ENDPOINTS}/${shortUrl?.shortId}`}>{shortUrl?.shortId}</a>}
                   </Box>
               </Box>
               <Box sx={{ px: '20rem' }}>
