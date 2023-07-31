@@ -66,18 +66,18 @@ const Nav:React.FC<{}> = () => {
         setErrMsg('');
     }, [email, password]);
 
-    async function handleSubmit(e) {
-        e.preventDefault();
+    // async function handleSubmit(e) {
+    //     e.preventDefault();
 
-        try{
-            await axios.post(`${SERVER_ENDPOINTS}/logIn`, {
-                email,
-                password
-            });
-        }catch {
-            console.log(e);
-        }
-    }
+    //     try{
+    //         await axios.post(`${SERVER_ENDPOINTS}/logIn`, {
+    //             email,
+    //             password
+    //         });
+    //     }catch {
+    //         console.log(e);
+    //     }
+    // }
   return (
       <AppBar position="static" style={{ background: 'white' }}>
           <Toolbar sx={{ display: 'flex', justifyContent: 'space-around' }}>
@@ -185,7 +185,7 @@ const Nav:React.FC<{}> = () => {
                           <Typography sx={{ color: '#005AE2CC', display: 'flex', justifyContent: 'right', mb: '10px', fontSize: '14px' }}>Forgot your password?</Typography>
                           <Button
                               type="submit"
-                              onClick={handleSubmit}
+                            //   onClick={handleSubmit}
                               variant="contained"
                               sx={{ background: '#005AE2', borderRadius: '30px', px: '9rem', width: '22rem', fontSize: '14px', mb: '10px' }}
                               disabled={!validEmail || !validPassword ? true : false}

@@ -73,19 +73,19 @@ const SignUpModal = ({open, onClose, style, ref }: SignupModalProps) => {
         setErrMsg('');
     }, [email, username, password, matchPassword])
 
-      async function submitForm(e) {
-          e.preventDefault();
+    //   async function submitForm(e) {
+    //       e.preventDefault();
 
-          try {
-              await axios.post(`${SERVER_ENDPOINTS}/signup`, {
-                  username,
-                  email,
-                  password
-              });
-          } catch {
-              console.log(e);
-          }
-      }
+    //       try {
+    //           await axios.post(`${SERVER_ENDPOINTS}/signup`, {
+    //               username,
+    //               email,
+    //               password
+    //           });
+    //       } catch {
+    //           console.log(e);
+    //       }
+    //   }
     return (
         <Modal open={open} onClose={onClose} sx={{ textAlign: 'center' }}>
             <Box sx={style} style={{ width: 400, height: 550 }}>
@@ -231,7 +231,7 @@ const SignUpModal = ({open, onClose, style, ref }: SignupModalProps) => {
                 </Typography>
                 <Button
                     type="submit"
-                    onClick={submitForm}
+                    // onClick={submitForm}
                     variant="contained"
                     sx={{ background: '#005AE2', borderRadius: '30px', width: '25rem', fontSize: '14px', mb: '10px' }}
                     disabled={!validName || !validPassword || !validMatch ? true : false}
